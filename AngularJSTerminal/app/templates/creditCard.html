@@ -1,0 +1,77 @@
+﻿<div class="container">
+    <div id="errormessageContainer"><span id="errorMessage"></span></div>
+    <div class="panel panel-default">
+        <div class="panel-heading" ng-if="card.transactionDetails">
+            
+            <h4 class="panel-title" >
+                <b>Ordrebeskrivelse: </b> <span>{{card.transactionDetails.OrderDescription}}</span><br>
+                <b>Ordrenummer:</b><span>{{card.transactionDetails.OrderNumber}}</span><br>
+                <b>Pris: </b>{{card.transactionDetails.Price}} {{card.TransactionDetails.currency}}
+            </h4>
+        </div>
+    </div>
+    <form novalidate="" name="creditCard">
+        <div class="panel panel-default">
+            <div class="col-xs-12 col-sm-6 form-group">
+                <label for="cardNumber" class="control-label">Credit Card Number</label>
+                <input name="cardNumber" type="number" ng-model="card.details.creditCardNumber" ng-change="card.getIssuer();" maxlength="19" id="cardNumber" class="form-control" autocomplete="off" placeholder="**** **** **** ****" required />
+                <div ng-show="creditCard.$submitted || creditCard.cardNumber.$touched">
+                    <span ng-show="creditCard.cardNumber.$error.required">Du må fylle inn kortnummer</span>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-4 form-inline">
+                <div class="form-group">
+                    <label for="expiryMonth" class="control-label">Expiry date</label><br>
+                    <select ng-model="card.details.expiryMonth" name="expiryMonth" id="expiryMonth" class="form-control" required>
+                        <option value="" disabled>MM</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <select ng-model="card.details.expiryYear" name="expiryYear" id="expiryYear" class="form-control" required>
+                        <option value="" disabled>YY</option>
+                        <option value="16">2016</option>
+                        <option value="17">2017</option>
+                        <option value="18">2018</option>
+                        <option value="19">2019</option>
+                        <option value="20">2020</option>
+                        <option value="21">2021</option>
+                        <option value="22">2022</option>
+                        <option value="23">2023</option>
+                        <option value="24">2024</option>
+                        <option value="25">2025</option>
+                        <option value="26">2026</option>
+                    </select>
+                    <div ng-show="creditCard.$submitted || creditCard.expiryMonth.$touched || creditCard.expiryYear.$touched">
+                        <span ng-show="creditCard.expiryMonth.$error.required || creditCard.expiryMonth.$error.required">Du må fylle inn utgangsdato</span>
+                    </div>
+                </div>
+               
+            </div>
+
+            <div class="col-xs-4 col-sm-2 form-group">
+                <label for="cvc" class="control-label">CVC</label>
+                <input name="cvc" ng-model="card.details.CVC" maxlength="4" id="cvc" class="form-control" autocomplete="off" type="tel" placeholder="***" required />
+                <div ng-show="creditCard.$submitted || creditCard.cvc.$touched">
+                    <span ng-show="creditCard.cvc.$error.required">Du må fylle inn CVC</span>
+                </div>
+            </div>
+            <div class="button-group" style="float: right;">
+                <input type="button" class="btn btn-default inline" ng-click="card.cancelPayment()" value="Cancel" />
+                <input type="submit" class="btn btn-success inline" ng-click="card.submitDetails()" />
+            </div>
+        </div>
+
+    </form>
+
+
+</div>

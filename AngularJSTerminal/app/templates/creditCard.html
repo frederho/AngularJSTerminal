@@ -2,14 +2,15 @@
     <div id="errormessageContainer"><span id="errorMessage"></span></div>
     <div class="panel panel-default">
         <div class="panel-heading" ng-if="card.transactionDetails">
-            
-            <h4 class="panel-title" >
+
+            <h4 class="panel-title">
                 <b>Ordrebeskrivelse: </b> <span>{{card.transactionDetails.OrderDescription}}</span><br>
                 <b>Ordrenummer:</b><span>{{card.transactionDetails.OrderNumber}}</span><br>
                 <b>Pris: </b>{{card.transactionDetails.Price}} {{card.TransactionDetails.currency}}
             </h4>
         </div>
     </div>
+    {{card.issuer}}
     <form novalidate="" name="creditCard">
         <div class="panel panel-default">
             <div class="col-xs-12 col-sm-6 form-group">

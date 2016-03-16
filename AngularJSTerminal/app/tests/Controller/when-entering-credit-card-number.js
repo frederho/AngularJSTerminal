@@ -1,11 +1,13 @@
-﻿describe('When entering a credit card number', function() {
+﻿describe('When entering a credit card number', function () {
     var card;
     beforeEach(module('angularTerminal.controllers', 'angularTerminal.services'));
-    beforeEach(inject(function($controller, $httpBackend) {
+    beforeEach(inject(function ($controller, $httpBackend) {
         card = $controller('creditCard', {});
+        $httpBackend.expectGET('http://localhost:24257/api/transaction').respond();
+        $httpBackend.flush();
     }));
 
-    it('should work even when creditCardNumber is undefined', function() {
+    it('should work even when creditCardNumber is undefined', function () {
         card.details.creditCardNumber = undefined;
         card.getIssuer();
     });
@@ -14,7 +16,7 @@
         beforeEach(inject(function (httpService) {
             spyOn(httpService, 'getIssuer');
         }));
-        it('should not attemt to contact bin service', inject(function(httpService) {
+        it('should not attemt to contact bin service', inject(function (httpService) {
             for (var i = 0; i < 3; i++) {
                 card.details.creditCardNumber += i;
                 card.getIssuer();
@@ -42,28 +44,48 @@
             spyOn(httpService, 'getIssuer');
             card.details.creditCardNumber = "123";
         }));
-        it(' should contact bin service', inject(function (httpService) {
-            for (var i = 3; i < 5; i++) {
-                card.details.creditCardNumber += i;
+        it('should call getIsser in httpService with current credit card number', inject(function (httpService) {
+            for (var i = 3; i < 6; i++) {
+                card.details.creditCardNumber += i + 1 ;
                 card.getIssuer();
-                expect(httpService.getIssuer).toHaveBeenCalledWith(card.details.creditCardNumber);
+                expect(httpService.getIssuer.calls.argsFor(i - 3)[0]).toEqual(card.details.creditCardNumber);
             }
         }));
     });
 
     describe('and the credit card number is between 4 and 6 digits long', function () {
+        var issuerDetails = { "CountryCode": "No", "CountryName": "Norway", "Issuer": "MasterCard", "Brand": "Shell", "CardType": "Credit card" };
         beforeEach(inject(function (httpService, $httpBackend) {
-            $httpBackend.expectGet('')
-            spyOn(httpService, 'getIssuer');
+            spyOn(httpService, 'getIssuer').and.callThrough();
             card.details.creditCardNumber = "1234";
+            card.getIssuer();
+            $httpBackend.expectGET("http://localhost:24257/api/creditCard?id=" + card.details.creditCardNumber).respond(issuerDetails);
+            $httpBackend.flush();
+
         }));
-        it(' should contact bin service', inject(function (httpService) {
-                card.getIssuer();
-                expect(httpService.getIssuer).toHaveBeenCalledWith(card.details.creditCardNumber);
+        it('should call getIsser in httpService with current credit card number', inject(function (httpService) {
+            expect(httpService.getIssuer.calls.argsFor(0)[0]).toEqual(card.details.creditCardNumber);
         }));
+
+        it('should update issuerInformation in card controller', function() {
+            expect(card.issuer).toEqual(issuerDetails);
+        });
     });
 
-    it('should tolerate a negative response from the bin service', function() {
+    describe('and something goes wrong server side', function () {
+        beforeEach(inject(function (httpService, $httpBackend) {
+            spyOn(httpService, 'getIssuer').and.callThrough();
+            card.details.creditCardNumber = "1234";
+            card.getIssuer();
+            $httpBackend.expectGET("http://localhost:24257/api/creditCard?id=" + card.details.creditCardNumber).respond(500, "Something went wrong");
+            $httpBackend.flush();
+
+        }));
+        it('should call getIsser in httpService with current credit card number', inject(function (httpService) {
+            expect(httpService.getIssuer.calls.argsFor(0)[0]).toEqual(card.details.creditCardNumber);
+        }));
+
+        //What should happen here?
 
     });
 });

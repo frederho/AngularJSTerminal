@@ -25,11 +25,15 @@ angular.module('angularTerminal.controllers')
                 });
             }
 
+            function setIssuer(data) {
+                vm.issuer = data;
+            }
+
             function getIssuer() {
-                if (vm.details.creditCardNumber && (vm.details.creditCardNumber.toString().length < 4 || vm.details.creditCardNumber.toString().length > 5 )) {
+                if (vm.details.creditCardNumber && (vm.details.creditCardNumber.toString().length < 4 || vm.details.creditCardNumber.toString().length > 6 )) {
                     return;
                 }
-                httpService.getIssuer(vm.details.creditCardNumber);
+                httpService.getIssuer(vm.details.creditCardNumber, setIssuer);
             }
 
 

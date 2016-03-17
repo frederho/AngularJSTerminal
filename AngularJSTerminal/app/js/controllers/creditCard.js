@@ -3,41 +3,47 @@ angular.module('angularTerminal.controllers')
     .controller('creditCard',
     ['httpService',
         function (httpService) {
-            //Local variables
+
             var vm = this;
+
+            //Local variables
             var initialCard = {
                 creditCardNumber: '',
                 expiryMonth: '',
                 expiryYear: '',
                 CVC: ''
             };
+
             //Exposed variables
             vm.issuer = {}
-            vm.issuerList = [
-                {
-                    "issuerName": "Visa",
-                    "issuerLogoUrl": ""
-                },
-                {
-                    "issuerName": "MasterCard",
-                    "issuerLogoUrl": ""
-                },
-                {
-                    "issuerName": "MaestroCard",
-                    "issuerLogoUrl": ""
-                }
-            ];
+            vm.issuerList = [];
+
+
 
             //Exposed functions
             vm.submitDetails = submitDetails;
             vm.cancelPayment = cancelPayment;
             vm.formatCardNumber = formatCardNumber;
             vm.getIssuer = getIssuer;
-
+            vm.getStyle = getStyle;
             //Initialize controller 
             init();
 
             function formatCardNumber() {
+            }
+
+            function getStyle(issuer) {
+                if(vm.issuer)
+                console.log(issuer.Name, vm.issuer.Issuer);
+                return issuer.Name === vm.issuer.Issuer ? "selected-issuer" : "fade-logo";
+            }
+
+            function setIssuerList(data) {
+                vm.issuerList = data;
+            }
+
+            function getIssuerList() {
+                httpService.getIssuerList(setIssuerList);
             }
 
             function getTransactionDetails() {
@@ -74,6 +80,7 @@ angular.module('angularTerminal.controllers')
             function init() {
                 vm.details = angular.copy(initialCard);
                 getTransactionDetails();
+                getIssuerList();
             }
 
 

@@ -4,6 +4,8 @@
     beforeEach(inject(function ($controller, $httpBackend, ApiEndpoint) {
         card = $controller('creditCard', {});
         $httpBackend.expectGET(ApiEndpoint.transactionDetails).respond();
+        $httpBackend.expectGET(ApiEndpoint.getIssuerList).respond();
+
         $httpBackend.flush();
     }));
 

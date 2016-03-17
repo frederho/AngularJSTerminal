@@ -17,8 +17,11 @@ angular.module('angularTerminal.services')
                 });
             };
 
-            function getIssuerListForMerchant() {
-                
+            function getIssuerListForMerchant(onSuccess) {
+                $http.get(ApiEndpoint.getIssuerList).then(function (result) {
+                    onSuccess(result.data);
+                });
+
             };
 
 

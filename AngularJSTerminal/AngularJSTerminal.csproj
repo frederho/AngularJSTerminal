@@ -123,7 +123,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\js\configuration\" />
     <Folder Include="app\node_modules\karma\node_modules\chokidar\node_modules\anymatch\node_modules\micromatch\node_modules\braces\node_modules\expand-range\node_modules\" />
     <Folder Include="app\node_modules\karma\node_modules\socket.io\node_modules\socket.io-client\node_modules\engine.io-client\node_modules\engine.io-parser\node_modules\after\test\" />
     <Folder Include="app\tests\Services\" />
@@ -174,6 +173,8 @@
   <ItemGroup>
     <Content Include="app\gulpfile.js" />
     <Content Include="app\js\app.js" />
+    <Content Include="app\js\configuration\01-configuration.js" />
+    <Content Include="app\js\configuration\ApiEnpoints.js" />
     <Content Include="app\js\controllers\01-controllers.js" />
     <Content Include="app\js\controllers\creditCard.js" />
     <Content Include="app\js\services\01-services.js" />
@@ -2657,11 +2658,11 @@
     <Content Include="app\node_modules\karma\static\karma.js" />
     <Content Include="app\node_modules\karma\wallaby.js" />
     <Content Include="app\templates\creditCard.html" />
+    <Content Include="app\tests\Controller\should-respond-with-data-when-calling-get-collection.js" />
+    <Content Include="app\tests\Controller\when-cancelling-payment.js" />
     <Content Include="app\tests\Controller\when-entering-credit-card-number.js" />
-    <Content Include="app\tests\credit-card-information-should-be-initialized-to-empty.js" />
-    <Content Include="app\tests\should-respond-with-data-when-calling-get-collection.js" />
-    <Content Include="app\tests\when-cancelling-payment.js" />
-    <Content Include="app\tests\when-submitting-credit-card-details.js" />
+    <Content Include="app\tests\Controller\When-initializing-creditcard-controller.js" />
+    <Content Include="app\tests\Controller\when-submitting-credit-card-details.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

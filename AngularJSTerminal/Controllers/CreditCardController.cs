@@ -11,10 +11,50 @@ namespace AngularJSTerminal.Controllers
 {
     public class CreditCardController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        [System.Web.Http.Route("GetIssuerList")]
+        public JsonResult<List<Issuer>> Get(int merchantId, Guid transactionId )
         {
-            return new string[] { "value1", "value2" };
+            var issuerList = GetIssuerList();
+            return Json(issuerList);
+        }
+
+        private List<Issuer> GetIssuerList()
+        {
+            var issuerList = new List<Issuer>
+            {
+                new Issuer
+                {
+                    AltText = "Visa",
+                    ImgUrl = "https://dev.epayment.nets.eu/images/Issuers/icons/visa.png",
+                    IssuerId = 3,
+                    Name = "visa"
+
+                },
+                new Issuer
+                {
+                    AltText = "Master Card",
+                    ImgUrl = "https://dev.epayment.nets.eu/images/Issuers/icons/mastercard.gif",
+                    IssuerId = 4,
+                    Name = "MasterCard"
+                },
+                new Issuer
+                {
+                    AltText = "Meastro",
+                    ImgUrl = "https://dev.epayment.nets.eu//Images/Issuers/Icons/maestro.gif",
+                    IssuerId = 3,
+                    Name = "Maestro"
+                },
+
+            };
+            return issuerList;
+        }
+
+        public class Issuer
+        {
+            public int IssuerId { get; set; }
+            public string Name { get; set; }
+            public string AltText { get; set; }
+            public string ImgUrl { get; set; }
         }
 
         [System.Web.Http.Route("GetIssuer")]

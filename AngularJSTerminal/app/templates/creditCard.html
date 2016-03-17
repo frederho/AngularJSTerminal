@@ -10,7 +10,13 @@
             </h4>
         </div>
     </div>
-    {{card.issuer}}
+    <div class="issuerList">
+        <img ng-repeat="issuer in card.issuerList" ng-src="{{issuer.ImgUrl}}" ng-class="card.getStyle(issuer)" alt="{{issuer.AltText}}"/>
+    </div>
+
+
+
+
     <form novalidate="" name="creditCard">
         <div class="panel panel-default">
             <div class="col-xs-12 col-sm-6 form-group">

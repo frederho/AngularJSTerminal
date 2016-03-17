@@ -25,7 +25,7 @@ namespace AngularJSTerminal.Controllers
             public string Currency { get; set; }
         }
 
-        // GET api/values/5
+        [System.Web.Http.Route("GetTransactionDetails")]
         public JsonResult<TransactionDetails> Get()
         {
             var details = GetTransactionDetails();

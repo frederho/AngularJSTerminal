@@ -1,21 +1,23 @@
 ﻿describe('When entering a credit card number', function () {
     var card;
-    beforeEach(module('angularTerminal.controllers', 'angularTerminal.services'));
-    beforeEach(inject(function ($controller, $httpBackend) {
+    beforeEach(module('angularTerminal.controllers', 'angularTerminal.services', 'angularTerminal.configuration'));
+    beforeEach(inject(function ($controller, $httpBackend, ApiEndpoint) {
         card = $controller('creditCard', {});
-        $httpBackend.expectGET('http://localhost:24257/api/transaction').respond();
+        $httpBackend.expectGET(ApiEndpoint.transactionDetails).respond();
         $httpBackend.flush();
     }));
-
-    it('should work even when creditCardNumber is undefined', function () {
-        card.details.creditCardNumber = undefined;
-        card.getIssuer();
-    });
 
     describe('and the credit card number is less than 4 digits long', function () {
         beforeEach(inject(function (httpService) {
             spyOn(httpService, 'getIssuer');
         }));
+
+        it('should net attempt to contact bin service when credit card number is undefined', inject(function (httpService) {
+            card.details.creditCardNumber = undefined;
+            card.getIssuer();
+            expect(httpService.getIssuer).not.toHaveBeenCalled();
+        }));
+
         it('should not attemt to contact bin service', inject(function (httpService) {
             for (var i = 0; i < 3; i++) {
                 card.details.creditCardNumber += i;
@@ -55,11 +57,11 @@
 
     describe('and the credit card number is between 4 and 6 digits long', function () {
         var issuerDetails = { "CountryCode": "No", "CountryName": "Norway", "Issuer": "MasterCard", "Brand": "Shell", "CardType": "Credit card" };
-        beforeEach(inject(function (httpService, $httpBackend) {
+        beforeEach(inject(function (httpService, $httpBackend, ApiEndpoint) {
             spyOn(httpService, 'getIssuer').and.callThrough();
             card.details.creditCardNumber = "1234";
             card.getIssuer();
-            $httpBackend.expectGET("http://localhost:24257/api/creditCard?id=" + card.details.creditCardNumber).respond(issuerDetails);
+            $httpBackend.expectGET(ApiEndpoint.getIssuer +"?id=" + card.details.creditCardNumber).respond(issuerDetails);
             $httpBackend.flush();
 
         }));
@@ -73,11 +75,11 @@
     });
 
     describe('and something goes wrong server side', function () {
-        beforeEach(inject(function (httpService, $httpBackend) {
+        beforeEach(inject(function (httpService, $httpBackend, ApiEndpoint) {
             spyOn(httpService, 'getIssuer').and.callThrough();
             card.details.creditCardNumber = "1234";
             card.getIssuer();
-            $httpBackend.expectGET("http://localhost:24257/api/creditCard?id=" + card.details.creditCardNumber).respond(500, "Something went wrong");
+            $httpBackend.expectGET(ApiEndpoint.getIssuer + "?id=" + card.details.creditCardNumber).respond(500, "Something went wrong");
             $httpBackend.flush();
 
         }));

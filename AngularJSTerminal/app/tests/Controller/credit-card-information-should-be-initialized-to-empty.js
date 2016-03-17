@@ -1,8 +1,8 @@
 describe('When initializing the credit card controller', function () {
-    beforeEach(module('angularTerminal.controllers', 'angularTerminal.services'));
+    beforeEach(module('angularTerminal.controllers', 'angularTerminal.services', 'angularTerminal.configuration'));
     var card;
-    beforeEach(inject(function ($controller, $httpBackend, httpService) {
-        $httpBackend.expectGET('http://localhost:24257/api/transaction').respond({data:{
+    beforeEach(inject(function ($controller, $httpBackend, httpService, ApiEndpoint) {
+        $httpBackend.expectGET(ApiEndpoint.transactionDetails).respond({data:{
             OrderDescription: "Description",
             OrderNumber: 1234,
             Price: 957,

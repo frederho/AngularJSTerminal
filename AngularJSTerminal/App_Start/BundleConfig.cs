@@ -29,7 +29,8 @@ namespace AngularJSTerminal
             bundles.Add(new ScriptBundle("~/bundle/app").Include(
                 "~/app/js/*.js",
                 "~/app/js/controllers/*.js",
-                "~/app/js/services/*.js"
+                "~/app/js/services/*.js",
+                "~/app/js/configuration/*.js"
                 ));
         }
     }

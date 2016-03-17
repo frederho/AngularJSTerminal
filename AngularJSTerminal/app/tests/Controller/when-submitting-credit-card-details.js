@@ -7,7 +7,7 @@ describe('When submitting creditcard details', function () {
     //Using controller as with VM means that we do not have to work with scope.
     //any property we expect to find in the controller scope is assigned to the controller directly
     var card;
-    beforeEach(inject(function ($controller, $rootScope, httpService) {
+    beforeEach(inject(function ($controller) {
         card = $controller('creditCard', { });
         spyOn(card, 'submitDetails').and.callThrough();
     }));

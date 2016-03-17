@@ -1,6 +1,6 @@
 ﻿//Angular app is defined here, the dependencies needed are listed in the []. 
 //Make sure to reference to this module without the [].
-angular.module("angularTerminal", ["angularTerminal.controllers", "ui.router"])
+angular.module("angularTerminal", ["angularTerminal.controllers", "angularTerminal.configuration", "ui.router"])
 	.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 	    $urlRouterProvider.otherwise('creditCard');
         $stateProvider

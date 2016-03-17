@@ -1,22 +1,23 @@
 // JavaScript source code
 angular.module('angularTerminal.services')
-    .factory('httpService', ['$http',
-        function ($http) {
-
+    .factory('httpService',
+    ['$http', 'ApiEndpoint',
+        function ($http, ApiEndpoint) {
             var service = {
                 'getTransactionDetails': getTransactionDetails,
                 'submitDetails': submitDetails,
-                'getIssuer': getIssuer
+                'getIssuer': getIssuer,
+                'getIssuerList': getIssuerListForMerchant
             }
 
 
             function getIssuer(cardNumber, onSuccess) {
-                $http.get('http://localhost:24257/api/creditCard?id=' + cardNumber).then(function (result) {
+                $http.get(ApiEndpoint.getIssuer + '?id=' + cardNumber).then(function (result) {
                     onSuccess(result.data);
                 });
             };
 
-            function getIssuerListForMerchants() {
+            function getIssuerListForMerchant() {
                 
             };
 
@@ -25,7 +26,7 @@ angular.module('angularTerminal.services')
             };
 
             function getTransactionDetails(onSuccess) {
-                $http.get('http://localhost:24257/api/transaction').then(function (result) {
+                $http.get(ApiEndpoint.transactionDetails).then(function (result) {
                     onSuccess(result.data);
                 });
             }
